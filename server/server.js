@@ -1,3 +1,4 @@
+require('./config');
 const express = require('express');
 const app = express();
 
@@ -16,6 +17,7 @@ app.post('/user', (req, res) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log('Listening port', 3000);
+const port = process.env.PORT;
+app.listen(port, () => {
+  console.log('Listening port', port);
 });
