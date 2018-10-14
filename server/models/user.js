@@ -6,7 +6,7 @@ const { Schema } = mongoose;
 const roles = {
   values: ['ADMIN_ROLE', 'USER_ROLE'],
   message: '{VALUE} is not a valid role',
-}
+};
 
 const userSchema = new Schema({
   name: {
@@ -40,6 +40,14 @@ const userSchema = new Schema({
     default: false,
   },
 });
+
+userSchema.methods.toJSON = function () {
+  const user = this;
+  const userObject = user.toObject();
+  delete userObject.password;
+
+  return userObject;
+};
 
 userSchema.plugin(uniqueValidator, {
   message: '{PATH} is already exist',
