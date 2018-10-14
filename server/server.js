@@ -6,9 +6,9 @@ const mongoose = require('mongoose');
 const user = require('./routes/user');
 
 const app = express();
-app.use(user);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(user);
 
 mongoose.connect('mongodb://localhost:27017/coffe', { useNewUrlParser: true })
   .then((response) => {
@@ -40,5 +40,5 @@ mongoose.connect('mongodb://localhost:27017/coffe', { useNewUrlParser: true })
 
 const port = process.env.PORT;
 app.listen(port, () => {
-  console.log('Listening port', port);
+  console.log(`Listening in port: ${port}`.rainbow);
 });
