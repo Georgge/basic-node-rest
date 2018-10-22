@@ -32,4 +32,21 @@ app.post('/user', (request, res) => {
     });
 });
 
+app.put('/user/:id', (request, response) => {
+  const { id } = request.params;
+  const { body } = request;
+
+  User.findByIdAndUpdate(id, body, { new: true })
+    .then((userDB) => {
+      response.json({
+        ok: true,
+        user: userDB,
+      });
+    })
+    .catch(error => response.status(400).json({
+      ok: false,
+      error,
+    }));
+});
+
 module.exports = app;
