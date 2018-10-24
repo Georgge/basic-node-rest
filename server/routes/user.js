@@ -23,9 +23,12 @@ app.get('/users', (request, response) => {
         });
       }
 
-      response.json({
-        ok: true,
-        users,
+      User.count({}, (error, count) => {
+        response.json({
+          ok: true,
+          total_register: count,
+          users,
+        });
       });
     });
 });
