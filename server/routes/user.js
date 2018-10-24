@@ -12,7 +12,7 @@ app.get('/users', (request, response) => {
   let limit = request.query.limit || 5;
   limit = Number(limit);
 
-  User.find({})
+  User.find({}, 'name email state img')
     .skip(from)
     .limit(limit)
     .exec((error, users) => {
