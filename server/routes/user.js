@@ -79,4 +79,30 @@ app.put('/user/:id', (request, response) => {
     }));
 });
 
+app.delete('/user/:id', (request, response) => {
+  const { id } = request.params;
+
+  User.findByIdAndRemove(id)
+    .then((userDelete) => {
+      if (!userDelete) {
+        return response.status(400).json({
+          ok: false,
+          error: {
+            message: `User ${id} no exist`,
+          },
+        });
+      }
+      response.json({
+        ok: true,
+        user: userDelete,
+      });
+    })
+    .catch((error) => {
+      response.status(400).json({
+        ok: false,
+        error,
+      })
+    });
+});
+
 module.exports = app;
