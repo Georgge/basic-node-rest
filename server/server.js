@@ -10,7 +10,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(user);
 
-mongoose.connect('mongodb://localhost:27017/coffe', { useNewUrlParser: true })
+const urlDB = process.env.URLDB;
+
+mongoose.connect(urlDB, { useNewUrlParser: true })
   .then((response) => {
     const { connections } = response;
     const data = connections[0];
