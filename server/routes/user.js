@@ -81,10 +81,13 @@ app.put('/user/:id', (request, response) => {
 
 app.delete('/user/:id', (request, response) => {
   const { id } = request.params;
+  const newState = {
+    state: false,
+  };
 
-  User.findByIdAndRemove(id)
-    .then((userDelete) => {
-      if (!userDelete) {
+  User.findByIdAndUpdate(id, newState, { new: true })
+    .then((userState) => {
+      if (!userState) {
         return response.status(400).json({
           ok: false,
           error: {
@@ -94,14 +97,14 @@ app.delete('/user/:id', (request, response) => {
       }
       response.json({
         ok: true,
-        user: userDelete,
+        user: userState,
       });
     })
     .catch((error) => {
       response.status(400).json({
         ok: false,
         error,
-      })
+      });
     });
 });
 
