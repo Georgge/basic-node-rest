@@ -1,11 +1,15 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const _ = require('underscore');
+
+
 const User = require('../models/user');
+const { tokenVerification } = require('../middlewares/authentication');
+
 
 const app = express();
 
-app.get('/users', (request, response) => {
+app.get('/users', tokenVerification, (request, response) => {
   let from = request.query.from || 0;
   from = Number(from);
 

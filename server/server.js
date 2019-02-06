@@ -1,3 +1,4 @@
+require('dotenv').config();
 require('./config');
 const colors = require('colors');
 const express = require('express');

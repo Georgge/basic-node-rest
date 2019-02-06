@@ -1,12 +1,14 @@
 const router = require('express').Router();
 
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 
 
 router.post('/', (request, response) => {
   const { body } = request;
+  console.log(process.env.TOKEN_SEED);
 
   User.findOne({ email: body.email })
     .then((user) => {
@@ -19,15 +21,19 @@ router.post('/', (request, response) => {
         });
       }
 
+      const token = jwt.sign({
+        user,
+      }, process.env.TOKEN_SEED, { expiresIn: process.env.TOKEN_EXPIRATION });
+
       response.json({
         ok: true,
         user,
-        token: '123',
+        token,
       });
-    }).catch((error) => {
+    }).catch((err) => {
       response.status(500).json({
         ok: false,
-        error,
+        error: err,
       });
     });
 });
