@@ -3,12 +3,18 @@ const colors = require('colors');
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const user = require('./routes/user');
+
+const userRoutes = require('./routes/user');
+const loginRoutes = require('./routes/login');
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(user);
+
+
+/* ROUTES */
+app.use(userRoutes);
+app.use('/login', loginRoutes);
 
 const urlDB = process.env.URLDB;
 
