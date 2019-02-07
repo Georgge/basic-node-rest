@@ -4,7 +4,7 @@ const _ = require('underscore');
 
 
 const User = require('../models/user');
-const { tokenVerification } = require('../middlewares/authentication');
+const { tokenVerification, roleVerification } = require('../middlewares/authentication');
 
 
 const app = express();
@@ -37,7 +37,7 @@ app.get('/users', tokenVerification, (request, response) => {
     });
 });
 
-app.post('/user', (request, res) => {
+app.post('/user', [tokenVerification, roleVerification], (request, res) => {
   const { body } = request;
   const user = new User({
     name: body.name,
@@ -61,7 +61,7 @@ app.post('/user', (request, res) => {
     });
 });
 
-app.put('/user/:id', (request, response) => {
+app.put('/user/:id', [tokenVerification, roleVerification], (request, response) => {
   const { id } = request.params;
   const validParams = ['name', 'img', 'role', 'state'];
   const body = _.pick(request.body, validParams);
@@ -83,7 +83,7 @@ app.put('/user/:id', (request, response) => {
     }));
 });
 
-app.delete('/user/:id', (request, response) => {
+app.delete('/user/:id', [tokenVerification, roleVerification], (request, response) => {
   const { id } = request.params;
   const newState = {
     state: false,
